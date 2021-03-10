@@ -1,0 +1,90 @@
+
+
+---
+title: "CORONA DASHBOARD"
+author: "JES"
+date: "10/02/2021"
+output: ioslides_presentation
+   
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## R Markdown
+
+This is an R Markdown presentation. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.
+
+## Slide with Bullets
+
+- Bullet 1
+- Bullet 2
+- Bullet 3
+
+## Slide with R Output
+
+```{r cars, echo = TRUE}
+summary(cars)
+```
+
+## Slide with Plot
+
+```{r pressure}
+plot(pressure)
+```
+
+
+library(ggplot2)
+library(RColorBrewer)
+library(ggmap)
+library(maps)
+library(rgdal)
+library(scales)
+library(maptools)
+library(gridExtra)
+library(rgeos)
+library(mapproj)
+library(dplyr)
+
+ci <- read.csv("coronaIndia.csv")
+ci$confirmed<-as.numeric(ci$confirmed)
+ci$cured<-as.numeric(ci$cured)
+ci$death<-as.numeric(ci$death)
+confirm <- sum(ci[,3])
+cur <-sum(ci[,4])
+dt <-sum(ci[,5])
+
+## Column {data-width=150}
+
+### CONFIRMED CASES
+
+```{r}
+valueBox(confirm)
+```
+ggplot(data = ci, aes(x = states, y = confirmed)) +
+  geom_bar(stat = "identity", fill = "blue")+coord_flip()+
+     labs(x = "States",
+       y = "Confirmed",
+       title = "Comparing Confirmed cases")
+
+
+### CURED CASES
+
+```{r}
+valueBox(cur)
+```
+
+### DEATH CASES
+
+```{r}
+valueBox(dt)
+```
+
+ggplot(data = ci, aes(x = states, y = death)) +
+  geom_bar(stat = "identity", fill = "red")+coord_flip()+
+  labs(x = "States",
+       y = "Death",
+       title = "Comparing Death cases")
